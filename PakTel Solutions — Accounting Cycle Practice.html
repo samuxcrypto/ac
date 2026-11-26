@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PakTel Solutions — Accounting Cycle Practice</title>
+<style>
+:root{--bg:#f6f7f4;--card:#fff;--ink:#1c2321;--mute:#66706b;--line:#e1e5e0;--accent:#0f6e56;--accent2:#e8f3ee;--dr:#185fa5;--cr:#a32d2d;--adj:#b3600b;--adjbg:#fdf1e3;--ok:#1d7a3e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121715;--card:#1b2220;--ink:#e8ede9;--mute:#9aa6a0;--line:#2c3532;--accent:#4cc9a0;--accent2:#1a2e27;--dr:#7fb4ee;--cr:#f09595;--adj:#f0a85a;--adjbg:#2e2318;--ok:#6fd48f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121715;--card:#1b2220;--ink:#e8ede9;--mute:#9aa6a0;--line:#2c3532;--accent:#4cc9a0;--accent2:#1a2e27;--dr:#7fb4ee;--cr:#f09595;--adj:#f0a85a;--adjbg:#2e2318;--ok:#6fd48f;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+header{padding:28px 0 12px}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 6px;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--accent2);color:var(--accent);border-radius:99px;padding:3px 12px;font-size:.82rem;font-weight:600}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid var(--line)}
+nav a{white-space:nowrap;text-decoration:none;color:var(--mute);padding:7px 14px;border-radius:8px;font-size:.9rem;font-weight:600}
+nav a.on{background:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){nav a.on{color:#0b1512}}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}
+.sw{display:flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer;user-select:none}
+.hint{color:var(--mute);font-size:.85rem}
+section{display:none}section.on{display:block}
+h2{font-size:1.35rem;margin:6px 0 4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:none}
+tr.sec td{font-weight:700;color:var(--accent);padding-top:14px;border-bottom:none}
+.dr{color:var(--dr)}.cr{color:var(--cr)}
+.ind{padding-left:28px}
+.date{font-weight:700;color:var(--accent);margin-right:8px}
+.tx h3{margin:0 0 4px;font-size:1rem}
+.tx p{margin:0 0 8px;color:var(--mute);font-size:.9rem}
+.tx.adj{border-left:4px solid var(--adj)}.tx.adj .date{color:var(--adj)}
+.sol{transition:filter .25s}
+.practice .sol:not(.on){filter:blur(7px);cursor:pointer;user-select:none}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.t{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.t h4{margin:0 0 6px;text-align:center;font-size:.92rem;border-bottom:2px solid var(--ink);padding-bottom:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;min-height:48px}
+.cols ul{list-style:none;margin:0;padding:6px 8px;font-size:.85rem;font-variant-numeric:tabular-nums}
+.cols ul:first-child{border-right:2px solid var(--ink)}
+.cols li{display:flex;justify-content:space-between;gap:6px}
+.cols li span:first-child{color:var(--mute)}
+.cols li.a{background:var(--adjbg);color:var(--adj);border-radius:4px;padding:0 4px}
+.cols li.a span:first-child{color:var(--adj)}
+.bal{border-top:1px solid var(--line);margin-top:4px;padding-top:6px;text-align:center;font-weight:700;font-size:.9rem}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.badge{background:var(--accent2);color:var(--ok);border-radius:8px;padding:4px 12px;font-size:.85rem;font-weight:600}
+.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
+.key div{background:var(--accent2);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.key b{display:block;color:var(--accent)}
+ol.req{padding-left:20px;margin:6px 0}
+button{font:inherit;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer;font-weight:600}
+@media (prefers-color-scheme:dark){button{color:#0b1512}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>PakTel Solutions</h1>
+  <p class="sub">Accounting cycle practice problem: journal → ledger → trial balance → adjustments → financial statements</p>
+  <div class="chips"><span class="chip">January 2025</span><span class="chip">Amounts in Rs.</span><span class="chip">9 transactions · 4 adjustments</span></div>
+</header>
+<nav id="nav"></nav>
+<div class="bar">
+  <label class="sw"><input type="checkbox" id="prac"> Practice mode (blur the answers, tap to reveal)</label>
+  <span class="hint">Everything below is calculated live from the transaction data.</span>
+</div>
+
+<section id="problem"></section>
+<section id="journal"></section>
+<section id="ledger"></section>
+<section id="trial"></section>
+<section id="adjust"></section>
+<section id="adjtb"></section>
+<section id="statements"></section>
+</div>
+
+<script>
+const A={cash:['Cash','A'],land:['Land','A'],bldg:['Building','A'],equip:['Office Equipment','A'],
+adb:['Accumulated Depreciation — Building','C'],ade:['Accumulated Depreciation — Office Equipment','C'],
+np:['Notes Payable','L'],ap:['Accounts Payable','L'],sp:['Salaries Payable','L'],ip:['Interest Payable','L'],
+cs:['Capital Stock','E'],rev:['Service Revenue','R'],opx:['Operating Expenses','X'],
+dpb:['Depreciation Expense — Building','X'],dpe:['Depreciation Expense — Office Equipment','X'],
+sal:['Salaries Expense','X'],int:['Interest Expense','X']};
+const debitSide=k=>'AX'.includes(A[k][1]);
+const OPEN={cash:87000,land:490000,bldg:650000,equip:123000,np:310000,ap:80000,cs:960000};
+const TX=[
+{d:'Jan 7',t:'Owner invests additional cash',n:'Cash increases (asset ↑) and owner’s equity increases.',l:[['cash',230000,0],['cs',0,230000]]},
+{d:'Jan 9',t:'Buy land (Rs. 235,000) and building (Rs. 155,000)',n:'Total cost Rs. 390,000: Rs. 88,500 cash, the rest on a note.',l:[['land',235000,0],['bldg',155000,0],['cash',0,88500],['np',0,301500]]},
+{d:'Jan 15',t:'Buy computer systems on 30-day account',n:'No cash moves yet; a liability is created.',l:[['equip',39500,0],['ap',0,39500]]},
+{d:'Jan 20',t:'Bank loan from Capital Bank',n:'Cash in, note payable up.',l:[['cash',220000,0],['np',0,220000]]},
+{d:'Jan 21',t:'Pay part of December accounts payable',n:'Both an asset and a liability shrink.',l:[['ap',68500,0],['cash',0,68500]]},
+{d:'Jan 28',t:'Pay down notes payable',n:'Principal repayment only; interest is handled at month-end.',l:[['np',24000,0],['cash',0,24000]]},
+{d:'Jan 31',t:'Service revenue earned in cash',n:'Revenue is recognised when earned.',l:[['cash',336000,0],['rev',0,336000]]},
+{d:'Jan 31',t:'Operating expenses paid in cash',n:'Expense recognised as incurred.',l:[['opx',240000,0],['cash',0,240000]]}];
+const ADJ=[
+{d:'Jan 31',k:'a',t:'Depreciation — building',n:'Allocates cost to the period without touching cash.',l:[['dpb',2500,0],['adb',0,2500]]},
+{d:'Jan 31',k:'b',t:'Depreciation — office equipment',n:'Same idea; the contra-asset reduces book value.',l:[['dpe',1500,0],['ade',0,1500]]},
+{d:'Jan 31',k:'c',t:'Accrue unpaid salaries',n:'Earned in January, paid later: expense now, liability now.',l:[['sal',12000,0],['sp',0,12000]]},
+{d:'Jan 31',k:'d',t:'Accrue interest on notes payable',n:'Interest has been incurred even though unpaid.',l:[['int',4500,0],['ip',0,4500]]}];
+
+const R=x=>x?x.toLocaleString('en-US'):'';
+const $=id=>document.getElementById(id);
+
+function post(inc){
+  const m={};Object.keys(A).forEach(k=>m[k]={dr:[],cr:[]});
+  Object.entries(OPEN).forEach(([k,v])=>m[k][debitSide(k)?'dr':'cr'].push(['Bal 12/31',v,0]));
+  const go=(e,a)=>e.l.forEach(([k,d,c])=>{if(d)m[k].dr.push([a?'Adj ('+e.k+')':e.d,d,a]);if(c)m[k].cr.push([a?'Adj ('+e.k+')':e.d,c,a])});
+  TX.forEach(e=>go(e,0));if(inc)ADJ.forEach(e=>go(e,1));
+  Object.values(m).forEach(a=>a.bal=a.dr.reduce((s,x)=>s+x[1],0)-a.cr.reduce((s,x)=>s+x[1],0));
+  return m;
+}
+function entry(e){
+  return '<table class="sol"><tr><th>Account</th><th class="n">Debit</th><th class="n">Credit</th></tr>'+
+  e.l.map(([k,d,c])=>`<tr><td class="${c?'ind':''}">${A[k][0]}</td><td class="n dr">${R(d)}</td><td class="n cr">${R(c)}</td></tr>`).join('')+'</table>';
+}
+function entries(list,adj){
+  return list.map(e=>`<div class="card tx ${adj?'adj':''}"><h3><span class="date">${e.d}${adj?' ('+e.k+')':''}</span>${e.t}</h3><p>${e.n}</p>${entry(e)}</div>`).join('');
+}
+function tAccounts(inc){
+  const m=post(inc);
+  return '<div class="tgrid">'+Object.keys(A).filter(k=>m[k].dr.length||m[k].cr.length).map(k=>{
+    const a=m[k],b=a.bal,li=x=>`<li class="${x[2]?'a':''}"><span>${x[0]}</span><span>${R(x[1])}</span></li>`;
+    return `<div class="t sol"><h4>${A[k][0]}</h4><div class="cols"><ul>${a.dr.map(li).join('')}</ul><ul>${a.cr.map(li).join('')}</ul></div><div class="bal ${b>=0?'dr':'cr'}">Balance: Rs. ${R(Math.abs(b))} ${b>=0?'Dr':'Cr'}</div></div>`;
+  }).join('')+'</div>';
+}
+function tb(inc,title){
+  const m=post(inc);let D=0,C=0;
+  const rows=Object.keys(A).filter(k=>m[k].dr.length||m[k].cr.length).map(k=>{
+    const b=m[k].bal,d=b>0?b:0,c=b<0?-b:0;D+=d;C+=c;
+    return `<tr><td>${A[k][0]}</td><td class="n dr">${R(d)}</td><td class="n cr">${R(c)}</td></tr>`}).join('');
+  return `<div class="card sol"><h3 style="margin:0">PakTel Solutions</h3><div class="hint" style="margin-bottom:8px">${title} · as of January 31, 2025</div>
+  <table><tr><th>Account</th><th class="n">Debit (Rs.)</th><th class="n">Credit (Rs.)</th></tr>${rows}<tr class="tot"><td>Total</td><td class="n">${R(D)}</td><td class="n">${R(C)}</td></tr></table>
+  <div class="badges"><span class="badge">${D===C?'✓ Debits = Credits':'✗ Out of balance'}</span></div></div>`;
+}
+function statements(){
+  const m=post(1),b=k=>m[k].bal;
+  const revs=-b('rev'),exps=['opx','dpb','dpe','sal','int'],te=exps.reduce((s,k)=>s+b(k),0),ni=revs-te;
+  const bldgN=b('bldg')+b('adb'),eqN=b('equip')+b('ade');
+  const ta=b('cash')+b('land')+bldgN+eqN,tl=-(b('np')+b('ap')+b('sp')+b('ip')),eq=-b('cs')+ni;
+  const r=(l,v,c='')=>`<tr class="${c}"><td>${l}</td><td class="n">${v<0?'('+R(-v)+')':R(v)}</td></tr>`;
+  return `<div class="grid">
+  <div class="card sol"><h3 style="margin:0">Income Statement</h3><div class="hint">Month ended January 31, 2025</div>
+  <table>${r('Service revenue',revs)}<tr class="sec"><td colspan="2">Expenses</td></tr>
+  ${exps.map(k=>r(A[k][0],b(k))).join('')}${r('Total expenses',te,'tot')}${r('Net income',ni,'tot')}</table></div>
+  <div class="card sol"><h3 style="margin:0">Balance Sheet</h3><div class="hint">As of January 31, 2025</div>
+  <table><tr class="sec"><td colspan="2">Assets</td></tr>${r('Cash',b('cash'))}${r('Land',b('land'))}${r('Building, net of Rs. '+R(-b('adb'))+' accum. dep.',bldgN)}${r('Office equipment, net of Rs. '+R(-b('ade'))+' accum. dep.',eqN)}${r('Total assets',ta,'tot')}
+  <tr class="sec"><td colspan="2">Liabilities</td></tr>${r('Notes payable',-b('np'))}${r('Accounts payable',-b('ap'))}${r('Salaries payable',-b('sp'))}${r('Interest payable',-b('ip'))}${r('Total liabilities',tl,'tot')}
+  <tr class="sec"><td colspan="2">Equity</td></tr>${r('Capital stock',-b('cs'))}${r('Retained earnings (Jan net income)',ni)}${r('Total equity',eq,'tot')}${r('Liabilities + Equity',tl+eq,'tot')}</table>
+  <div class="badges"><span class="badge">${ta===tl+eq?'✓ Assets = Liabilities + Equity':'✗ Equation broken'}: ${R(ta)} = ${R(tl)} + ${R(eq)}</span></div></div></div>`;
+}
+
+const S={
+problem:()=>{
+  const oa=['cash','land','bldg','equip'],ol=['np','ap','cs'];
+  const ta=oa.reduce((s,k)=>s+OPEN[k],0);
+  return `<h2>The problem</h2><p class="sub">PakTel Solutions was established on December 1, 2024. Work through the five requirements, then check yourself against the solution tabs.</p>
+  <div class="card"><h3 style="margin-top:0">Opening balances · December 31, 2024</h3><div class="grid"><table><tr><th>Assets</th><th class="n">Rs.</th></tr>${oa.map(k=>`<tr><td>${A[k][0]}</td><td class="n">${R(OPEN[k])}</td></tr>`).join('')}<tr class="tot"><td>Total</td><td class="n">${R(ta)}</td></tr></table>
+  <table><tr><th>Liabilities &amp; equity</th><th class="n">Rs.</th></tr>${ol.map(k=>`<tr><td>${A[k][0]}</td><td class="n">${R(OPEN[k])}</td></tr>`).join('')}<tr class="tot"><td>Total</td><td class="n">${R(ol.reduce((s,k)=>s+OPEN[k],0))}</td></tr></table></div>
+  <div class="badges"><span class="badge">✓ Opening books balance</span></div></div>
+  <div class="card"><h3 style="margin-top:0">January 2025 transactions</h3><table>${TX.map(e=>`<tr><td style="white-space:nowrap"><b>${e.d}</b></td><td>${e.t}${e.l.length>2?'':''}<div class="hint">${e.n}</div></td></tr>`).join('')}</table></div>
+  <div class="card"><h3 style="margin-top:0">Month-end adjustment data</h3><table>${ADJ.map(e=>`<tr><td><b>${e.k})</b></td><td>${e.t}</td><td class="n">Rs. ${R(e.l[0][1])}</td></tr>`).join('')}</table></div>
+  <div class="card"><h3 style="margin-top:0">Requirements</h3><ol class="req"><li>Record the January transactions in the general journal.</li><li>Post opening balances and transactions to T-accounts.</li><li>Prepare the unadjusted trial balance.</li><li>Record the adjusting journal entries.</li><li>Prepare the adjusted trial balance.</li><li><i>Bonus:</i> prepare the income statement and balance sheet.</li></ol></div>
+  <div class="key"><div><b>Debit side</b>Assets and expenses increase on the left.</div><div><b>Credit side</b>Liabilities, equity and revenue increase on the right.</div><div><b>Contra account</b>Accumulated depreciation is an asset with a credit balance.</div></div>`},
+journal:()=>`<h2>1 · General journal</h2><p class="sub">Every entry has equal debits and credits. Use practice mode to try each one first.</p>${entries(TX,0)}`,
+ledger:()=>`<h2>2 · General ledger (T-accounts)</h2><p class="sub">Opening balances sit on each account’s normal side.</p>
+  <label class="sw"><input type="checkbox" id="inc"> Include adjusting entries (shown in orange)</label><div id="tl" style="margin-top:12px">${tAccounts(0)}</div>`,
+trial:()=>`<h2>3 · Unadjusted trial balance</h2><p class="sub">Proof that total debits equal total credits before adjustments.</p>${tb(0,'Unadjusted trial balance')}`,
+adjust:()=>`<h2>4 · Adjusting entries</h2><p class="sub">None of these touch cash. They bring revenue and expense recognition up to date.</p>${entries(ADJ,1)}`,
+adjtb:()=>`<h2>5 · Adjusted trial balance</h2><p class="sub">Adjustments add Rs. 20,500 to each side: 2,384,500 → 2,405,000.</p>${tb(1,'Adjusted trial balance')}`,
+statements:()=>`<h2>Bonus · Financial statements</h2><p class="sub">Built straight from the adjusted trial balance.</p>${statements()}`
+};
+const NAMES={problem:'Problem',journal:'1 Journal',ledger:'2 Ledger',trial:'3 Unadjusted TB',adjust:'4 Adjustments',adjtb:'5 Adjusted TB',statements:'Statements'};
+Object.keys(S).forEach(k=>{$(k).innerHTML=S[k]();});
+$('nav').innerHTML=Object.keys(NAMES).map(k=>`<a href="#${k}" data-k="${k}">${NAMES[k]}</a>`).join('');
+function route(){
+  let h=(location.hash||'#problem').slice(1);if(!S[h])h='problem';
+  document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===h));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.k===h));
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+$('prac').onchange=e=>document.body.classList.toggle('practice',e.target.checked);
+document.addEventListener('click',e=>{const s=e.target.closest('.sol');if(s&&document.body.classList.contains('practice'))s.classList.toggle('on')});
+$('inc').onchange=e=>{$('tl').innerHTML=tAccounts(e.target.checked)};
+</script>
+</body>
+</html>
